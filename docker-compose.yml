@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:13-alpine
+    container_name: db
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=mini_commerce
+    ports:
+      - "5433:5432"
+  
+  migration:
+    build: migrations/.
+    restart: on-failure
+    depends_on:
+      - db
+    volumes:
+      - "./migrations/ddl:/migrations"
+    environment:
+      - GOOSE_DRIVER=postgres
+      - GOOSE_DBSTRING=postgres://postgres:postgres@db:5432/mini_commerce?sslmode=disable
+    command: "goose up"

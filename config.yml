@@ -1,0 +1,9 @@
+db:
+  host: "localhost"
+  port: "5433"
+  username: "postgres"
+  password: "postgres"
+  database: "mini_commerce"
+
+http:
+  port: "9090"
